@@ -1,0 +1,14 @@
+
+# dependencies
+node_modules
+.vscode
+client/node_modules
+server/node_modules
+
+# production
+client/build
+server/build
+
+# misc
+client/.env
+server/.env
