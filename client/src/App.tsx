@@ -6,8 +6,10 @@ import NewWine from './components/NewWine'
 const App: React.FunctionComponent = (): JSX.Element => {
   return (
     <div className="App">
-      <h1>Wine Pad</h1>
-      <NewWine />
+      <main>
+        <h1>Wine Pad</h1>
+        <NewWine />
+      </main>
     </div>
   )
 }
