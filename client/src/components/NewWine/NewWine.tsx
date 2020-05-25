@@ -1,6 +1,7 @@
 import * as React from 'react'
-import api from '../api/api'
+import api from '../../api/api'
 import { useForm } from 'react-hook-form'
+import { useEffect } from 'react'
 
 interface wineItem {
   name: string
@@ -15,7 +16,9 @@ interface wineItem {
 
 const NewWine: React.FunctionComponent = (): JSX.Element => {
   const { handleSubmit, register, errors } = useForm()
-
+  useEffect(() => {
+    document.title = 'New Wine'
+  }, [])
   const createWine = (data: wineItem): void => {
     api
       .createWine({
@@ -25,7 +28,8 @@ const NewWine: React.FunctionComponent = (): JSX.Element => {
       .catch((error) => console.error(error))
   }
   return (
-    <div>
+    <main>
+      <h2>New Wine</h2>
       <form onSubmit={handleSubmit(createWine)}>
         <fieldset>
           <legend>New Wine</legend>
@@ -55,7 +59,7 @@ const NewWine: React.FunctionComponent = (): JSX.Element => {
           <button type="submit">Create</button>
         </fieldset>
       </form>
-    </div>
+    </main>
   )
 }
 
