@@ -12,6 +12,7 @@ interface wineItem {
   price: number
   cost: number
   tastingNotes: string
+  cellarId: string
 }
 
 const NewWine: React.FunctionComponent = (): JSX.Element => {
@@ -23,6 +24,7 @@ const NewWine: React.FunctionComponent = (): JSX.Element => {
     api
       .createWine({
         ...data,
+        cellarId: 'cellarId',
       })
       .then(() => {})
       .catch((error) => console.error(error))

@@ -25,6 +25,16 @@ const createWine = (req, res) => {
     })
 }
 
+const getAllWines = (req, res) => {
+  Wine.find({ cellarId: req.params.id }, (err, items) => {
+    if (err) {
+      return res.status(400).json({ success: false, error: err })
+    }
+    return res.status(200).json({ success: true, items: items })
+  })
+}
+
 module.exports = {
   createWine,
+  getAllWines,
 }
