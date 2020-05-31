@@ -45,10 +45,9 @@ const EditWine: React.FunctionComponent<TParams> = (props): JSX.Element => {
     })
   }
 
-  const handleUpdate = () => {
-    editWine.name = 'NEW NAME'
+  const handleUpdate = (data: WineType) => {
     api
-      .updateWine(wineId, editWine)
+      .updateWine(wineId, data)
       .then((res) => {})
       .catch((error) => console.error(error))
   }

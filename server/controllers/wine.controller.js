@@ -44,30 +44,19 @@ const getWineById = (req, res) => {
 }
 
 const updateWineById = (req, res) => {
-  Wine.findOne({ _id: req.params.id }, (err, item) => {
+  Wine.update({ _id: req.params.id }, req.body, (err, item) => {
     if (err) {
       return res.status(400).json({
         success: false,
         error: err,
       })
+      
     }
-    item.name = req.body.name
-
-    item
-      .save()
-      .then(() => {
-        return res.status(200).json({
-          success: true,
-          id: item._id,
-        })
-      })
-      .catch((err) => {
-        return res.status(404).json({
-          success: false,
-          error: err,
-        })
-      })
-  })
+    return res.status(200).json({
+      success: true,
+      id: item._id,
+    })
+  });
 }
 
 const deleteWineById = (req, res) => {
