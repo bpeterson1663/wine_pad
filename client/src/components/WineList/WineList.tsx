@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import api from '../../api/api'
 
 const WineList: React.FunctionComponent = (): JSX.Element => {
@@ -21,7 +22,11 @@ const WineList: React.FunctionComponent = (): JSX.Element => {
     <main>
       <h2>Wine List</h2>
       {wineList.map((wine, i) => {
-        return <div key={i}>{wine.name}</div>
+        return (
+          <Link to={`/wine/${wine._id}`} key={i}>
+            {wine.name}
+          </Link>
+        )
       })}
     </main>
   )

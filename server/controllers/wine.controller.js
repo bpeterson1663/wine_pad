@@ -34,7 +34,54 @@ const getAllWines = (req, res) => {
   })
 }
 
+const getWineById = (req, res) => {
+  Wine.findOne({ _id: req.params.id }, (err, item) => {
+    if (err) {
+      return res.status(400).json({ success: false, error: err })
+    }
+    return res.status(200).json({ success: true, item: item })
+  }).catch((err) => console.log(err))
+}
+
+const updateWineById = (req, res) => {
+  Wine.findOne({ _id: req.params.id }, (err, item) => {
+    if (err) {
+      return res.status(400).json({
+        success: false,
+        error: err,
+      })
+    }
+    item.name = req.body.name
+
+    item
+      .save()
+      .then(() => {
+        return res.status(200).json({
+          success: true,
+          id: item._id,
+        })
+      })
+      .catch((err) => {
+        return res.status(404).json({
+          success: false,
+          error: err,
+        })
+      })
+  })
+}
+
+const deleteWineById = (req, res) => {
+  Wine.findOneAndDelete({ _id: req.params.id }, (err, item) => {
+    if (err) {
+      return res.status(400).json({ success: false, error: err })
+    }
+    return res.status(200).json({ suceess: true, item: item })
+  }).catch((error) => console.error(error))
+}
 module.exports = {
   createWine,
   getAllWines,
+  getWineById,
+  deleteWineById,
+  updateWineById,
 }

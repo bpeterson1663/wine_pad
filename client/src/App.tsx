@@ -5,6 +5,7 @@ import Navigation from './components/Navigation/Navigation'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import WineList from './components/WineList/WineList'
 import NewWine from './components/NewWine/NewWine'
+import EditWine from './components/EditWine/EditWine'
 
 const App: React.FunctionComponent = (): JSX.Element => {
   return (
@@ -14,6 +15,7 @@ const App: React.FunctionComponent = (): JSX.Element => {
 
         <Switch>
           <Route path="/wines" exact component={WineList} />
+          <Route path="/wine/:id" exact component={EditWine} />
           <Route path="/add" exact component={NewWine} />
           <Route path="/" component={WineList} />
         </Switch>
