@@ -46,7 +46,7 @@ const NewWine: React.FunctionComponent = (): JSX.Element => {
           {errors.name && 'Name of the wine is require'}
           <label htmlFor="varietal">Varietal: </label>
           <input id="varietal" name="varietal" ref={register} />
-          <label htmlFor="vintage">vintage: </label>
+          <label htmlFor="vintage">Vintage: </label>
           <input id="vintage" name="vintage" ref={register} />
           <label htmlFor="region">Region: </label>
           <input id="region" name="region" ref={register} />
