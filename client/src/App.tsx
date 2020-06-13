@@ -6,6 +6,8 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import WineList from './components/WineList/WineList'
 import NewWine from './components/NewWine/NewWine'
 import EditWine from './components/EditWine/EditWine'
+import SignUp from './components/Authentication/SignUp'
+import Login from './components/Authentication/Login'
 
 const App: React.FunctionComponent = (): JSX.Element => {
   return (
@@ -14,6 +16,8 @@ const App: React.FunctionComponent = (): JSX.Element => {
         <Navigation />
 
         <Switch>
+          <Route path="/login" exact component={Login} />
+          <Route path="/signup" exact component={SignUp} />
           <Route path="/wines" exact component={WineList} />
           <Route path="/wine/:id" exact component={EditWine} />
           <Route path="/add" exact component={NewWine} />
