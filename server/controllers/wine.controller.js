@@ -40,23 +40,23 @@ const getWineById = (req, res) => {
       return res.status(400).json({ success: false, error: err })
     }
     return res.status(200).json({ success: true, item: item })
-  }).catch((err) => console.log(err))
+  }).catch((err) => console.error(err))
 }
 
 const updateWineById = (req, res) => {
-  Wine.update({ _id: req.params.id }, req.body, (err, item) => {
+  Wine.updateOne({ _id: req.params.id }, req.body, (err, item) => {
     if (err) {
       return res.status(400).json({
         success: false,
         error: err,
       })
-      
+
     }
     return res.status(200).json({
       success: true,
       id: item._id,
     })
-  });
+  })
 }
 
 const deleteWineById = (req, res) => {
