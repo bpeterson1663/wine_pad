@@ -21,7 +21,7 @@ const apis = {
   deleteWine,
   createUser,
   authenticateUser,
-  checkToken
+  checkToken,
 }
 
 export default apis

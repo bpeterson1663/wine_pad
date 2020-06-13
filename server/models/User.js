@@ -8,7 +8,7 @@ const User = new Schema({
   password: { type: String, required: true },
 })
 
-User.pre('save', function(next) {
+User.pre('save', function (next) {
   if (this.isNew || this.isModified('password')) {
     const document = this
     bcrypt.hash(document.password, saltRounds, (err, hashedPassword) => {
@@ -24,15 +24,13 @@ User.pre('save', function(next) {
   }
 })
 
-User.methods.isCorrectPassword = function(password, callback){
-    
-    bcrypt.compare(password, this.password, function(err, same) {
-        if (err) {
-          callback(err);
-        } else {
-          callback(err, same);
-        }
-      });
-    
+User.methods.isCorrectPassword = function (password, callback) {
+  bcrypt.compare(password, this.password, function (err, same) {
+    if (err) {
+      callback(err)
+    } else {
+      callback(err, same)
+    }
+  })
 }
 module.exports = mongoose.model('users', User)
