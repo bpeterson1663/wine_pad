@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import WineList from './components/WineList/WineList'
 import NewWine from './components/NewWine/NewWine'
 import EditWine from './components/EditWine/EditWine'
+import 'antd/dist/antd.css'
 
 const App: React.FunctionComponent = (): JSX.Element => {
   return (
