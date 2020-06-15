@@ -50,13 +50,12 @@ const updateWineById = (req, res) => {
         success: false,
         error: err,
       })
-      
     }
     return res.status(200).json({
       success: true,
       id: item._id,
     })
-  });
+  })
 }
 
 const deleteWineById = (req, res) => {
