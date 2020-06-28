@@ -1,9 +1,8 @@
 import * as React from 'react'
 import { useState } from 'react'
 import api from '../../api/api'
-import { Spin, message } from 'antd'
 import { WineItem } from '../../constants/Types'
-import { Form, Input, Button, InputNumber } from 'antd'
+import { Form, Input, Button, InputNumber, Spin, message } from 'antd'
 
 const NewWine: React.FunctionComponent = (): JSX.Element => {
   const [form] = Form.useForm()

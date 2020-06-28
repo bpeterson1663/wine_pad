@@ -37,11 +37,14 @@ const EditWine: React.FunctionComponent<TParams> = (props): JSX.Element => {
     api
       .updateWine(wineId, data)
       .then(() => {
+        setIsLoading(false)
         message.success(`${data.name} was updated successfully`)
         // setEditWine(data)
       })
-      .catch((error) => message.error(`An error occured: ${error}`))
-      .finally(() => setIsLoading(false))
+      .catch((error) => {
+        setIsLoading(false)
+        message.error(`An error occured: ${error}`)
+      })
   }
 
   const EditForm: React.FunctionComponent = (): JSX.Element => {
