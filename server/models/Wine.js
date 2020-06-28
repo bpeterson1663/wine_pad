@@ -7,7 +7,7 @@ const Wine = new Schema(
     varietal: { type: String },
     region: { type: String },
     vintage: { type: String },
-    appelation: { type: String },
+    appellation: { type: String },
     price: { type: Number },
     cost: { type: Number },
     tastingNotes: { type: String },
