@@ -8,8 +8,15 @@ const Navigation: React.FunctionComponent = (): JSX.Element => {
       <Menu.Item key="1">
         <Link to="/wines">Wines</Link>
       </Menu.Item>
+
       <Menu.Item key="2">
-        <Link to="/add">Add Wine</Link>
+        <Link to="/addWine">Add Wine</Link>
+      </Menu.Item>
+      <Menu.Item key="3">
+        <Link to="/vendors">Vendors</Link>
+      </Menu.Item>
+      <Menu.Item key="4">
+        <Link to="/addVendor">Add Vendor</Link>
       </Menu.Item>
     </Menu>
   )

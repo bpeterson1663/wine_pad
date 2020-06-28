@@ -9,12 +9,24 @@ export const getAllWines = (id: string) => api.get(`/wines/${id}`)
 export const getWine = (id: string) => api.get(`/wine/${id}`)
 export const updateWine = (id: string, payload: object) => api.put(`/wine/${id}`, payload)
 export const deleteWine = (id: string) => api.delete(`/wine/${id}`)
+
+export const createVendor = (paylouad: object) => api.post('/vendor', paylouad)
+export const getAllVendors = (id: string) => api.get(`vendors/${id}`)
+export const getVendor = (id: string) => api.get(`/vendor/${id}`)
+export const updateVendor = (id: string, payload: object) => api.put(`/vendor/${id}`, payload)
+export const deleteVendor = (id: string) => api.delete(`/vendor/${id}`)
+
 const apis = {
   createWine,
   getAllWines,
   getWine,
   updateWine,
   deleteWine,
+  createVendor,
+  getAllVendors,
+  getVendor,
+  updateVendor,
+  deleteVendor,
 }
 
 export default apis

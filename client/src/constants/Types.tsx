@@ -12,4 +12,15 @@ interface WineItem {
   key: number
 }
 
-export { WineItem }
+interface VendorItem {
+  name: string
+  email: string
+  phone: string
+  address: string
+  cellarId: string
+  notes: string
+  _id: string
+  key: number
+}
+
+export { WineItem, VendorItem }
