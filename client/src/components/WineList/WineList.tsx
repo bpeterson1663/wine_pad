@@ -27,8 +27,8 @@ const WineList: React.FunctionComponent = (): JSX.Element => {
       dataIndex: 'region',
     },
     {
-      title: 'Appelation',
-      dataIndex: 'appelation',
+      title: 'Appellation',
+      dataIndex: 'appellation',
     },
     {
       title: 'Cost',

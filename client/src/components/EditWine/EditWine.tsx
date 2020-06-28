@@ -1,35 +1,25 @@
 import * as React from 'react'
 import { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { Spin, Result, Button, message } from 'antd'
+import { Form, Input, InputNumber, Spin, Result, Button, message } from 'antd'
 import api from '../../api/api'
 import { WineItem } from '../../constants/Types'
 type TParams = { match: { params: { id: string } }; history: [string] }
 
 const EditWine: React.FunctionComponent<TParams> = (props): JSX.Element => {
   const { match, history } = props
+  const [form] = Form.useForm()
+  const { TextArea } = Input
   const [isLoading, setIsLoading] = useState(true)
   const [noError, setNoError] = useState(true)
-  const [editWine, setEditWine] = useState<WineItem>({
-    name: '',
-    varietal: '',
-    vintage: '',
-    region: '',
-    appelation: '',
-    price: 0,
-    cost: 0,
-    tastingNotes: '',
-    cellarId: '',
-    _id: '',
-    key: null,
-  })
-  const { handleSubmit, register, errors } = useForm()
+
   const wineId = match.params.id
   useEffect(() => {
     api
       .getWine(wineId)
       .then((res) => {
-        setEditWine(res.data.item)
+        form.setFieldsValue({
+          ...res.data.item,
+        })
       })
       .catch(() => setNoError(false))
       .finally(() => setIsLoading(false))
@@ -48,7 +38,7 @@ const EditWine: React.FunctionComponent<TParams> = (props): JSX.Element => {
       .updateWine(wineId, data)
       .then(() => {
         message.success(`${data.name} was updated successfully`)
-        setEditWine(data)
+        // setEditWine(data)
       })
       .catch((error) => message.error(`An error occured: ${error}`))
       .finally(() => setIsLoading(false))
@@ -57,37 +47,49 @@ const EditWine: React.FunctionComponent<TParams> = (props): JSX.Element => {
   const EditForm: React.FunctionComponent = (): JSX.Element => {
     return (
       <div>
-        <form onSubmit={handleSubmit(handleUpdate)}>
-          <fieldset>
-            <legend>New Wine</legend>
-            <label htmlFor="name">Name: </label>
-            <input
-              id="name"
-              defaultValue={editWine.name}
+        <Spin tip="Loading..." spinning={isLoading}>
+          <Form form={form} onFinish={handleUpdate} layout="horizontal" size="small">
+            <Form.Item
               name="name"
-              ref={register({
-                required: 'Required',
-              })}
-            />
-            {errors.name && 'Name of the wine is require'}
-            <label htmlFor="varietal">Varietal: </label>
-            <input id="varietal" name="varietal" ref={register} defaultValue={editWine.varietal} />
-            <label htmlFor="vintage">Vintage: </label>
-            <input id="vintage" name="vintage" ref={register} defaultValue={editWine.vintage} />
-            <label htmlFor="region">Region: </label>
-            <input id="region" name="region" ref={register} defaultValue={editWine.region} />
-            <label htmlFor="appelation">Appelation: </label>
-            <input id="appelation" name="appelation" ref={register} defaultValue={editWine.appelation} />
-            <label htmlFor="price">Price: </label>
-            <input id="price" name="price" type="number" ref={register} defaultValue={editWine.price} />
-            <label htmlFor="cost">Cost: </label>
-            <input id="cost" name="cost" type="number" ref={register} defaultValue={editWine.cost} />
-            <label htmlFor="tastingNotes">Tasting Notes: </label>
-            <textarea id="tastingNotes" name="tastingNotes" ref={register} defaultValue={editWine.tastingNotes} />
-            <button type="submit">Update</button>
-          </fieldset>
-        </form>
-        <button onClick={handleDelete}>Delete</button>
+              label="Name"
+              rules={[
+                {
+                  required: true,
+                  message: 'Name of wine is required',
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item name="varietal" label="Varietal">
+              <Input />
+            </Form.Item>
+            <Form.Item name="vintage" label="Vintage">
+              <Input />
+            </Form.Item>
+            <Form.Item name="region" label="Region">
+              <Input />
+            </Form.Item>
+            <Form.Item name="appellation" label="Appellation">
+              <Input />
+            </Form.Item>
+            <Form.Item name="price" label="Price">
+              <InputNumber />
+            </Form.Item>
+            <Form.Item name="cost" label="Cost">
+              <InputNumber />
+            </Form.Item>
+            <Form.Item name="tastingNotes" label="Tasting Notes">
+              <TextArea />
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                Submit
+              </Button>
+            </Form.Item>
+          </Form>
+        </Spin>
+        <Button onClick={handleDelete}>Delete</Button>
       </div>
     )
   }
