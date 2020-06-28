@@ -44,7 +44,7 @@ const getWineById = (req, res) => {
 }
 
 const updateWineById = (req, res) => {
-  Wine.update({ _id: req.params.id }, req.body, (err, item) => {
+  Wine.updateOne({ _id: req.params.id }, req.body, (err, item) => {
     if (err) {
       return res.status(400).json({
         success: false,
