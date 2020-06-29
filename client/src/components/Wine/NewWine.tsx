@@ -72,7 +72,7 @@ const NewWine: React.FunctionComponent = (): JSX.Element => {
           <Form.Item name="vendorId" label="Vendor">
             <Select placeholder="Select a vendor this wine is ordered from" allowClear>
               {vendorList.map((item) => {
-                return <Option value={item._id}>{item.name}</Option>
+                return <Option key={item._id} value={item._id}>{item.name}</Option>
               })}
             </Select>
           </Form.Item>
