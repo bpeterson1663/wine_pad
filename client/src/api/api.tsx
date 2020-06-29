@@ -13,6 +13,13 @@ export const deleteWine = (id: string) => api.delete(`/wine/${id}`)
 export const createUser = (payload: object) => api.post('/user', payload)
 export const authenticateUser = (payload: object) => api.post('/authenticateUser', payload)
 export const checkToken = () => api.get('/checkToken')
+
+export const createVendor = (paylouad: object) => api.post('/vendor', paylouad)
+export const getAllVendors = (id: string) => api.get(`vendors/${id}`)
+export const getVendor = (id: string) => api.get(`/vendor/${id}`)
+export const updateVendor = (id: string, payload: object) => api.put(`/vendor/${id}`, payload)
+export const deleteVendor = (id: string) => api.delete(`/vendor/${id}`)
+
 const apis = {
   createWine,
   getAllWines,
@@ -22,6 +29,11 @@ const apis = {
   createUser,
   authenticateUser,
   checkToken,
+  createVendor,
+  getAllVendors,
+  getVendor,
+  updateVendor,
+  deleteVendor,
 }
 
 export default apis
