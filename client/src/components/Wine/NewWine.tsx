@@ -60,6 +60,9 @@ const NewWine: React.FunctionComponent = (): JSX.Element => {
           <Form.Item name="appellation" label="Appellation">
             <Input />
           </Form.Item>
+          <Form.Item name="inventory" label="Inventory">
+            <InputNumber />
+          </Form.Item>
           <Form.Item name="price" label="Price">
             <InputNumber />
           </Form.Item>
@@ -72,7 +75,11 @@ const NewWine: React.FunctionComponent = (): JSX.Element => {
           <Form.Item name="vendorId" label="Vendor">
             <Select placeholder="Select a vendor this wine is ordered from" allowClear>
               {vendorList.map((item) => {
-                return <Option key={item._id} value={item._id}>{item.name}</Option>
+                return (
+                  <Option key={item._id} value={item._id}>
+                    {item.name}
+                  </Option>
+                )
               })}
             </Select>
           </Form.Item>

@@ -10,6 +10,7 @@ const Wine = new Schema(
     appellation: { type: String },
     price: { type: Number },
     cost: { type: Number },
+    inventory: { type: Number },
     tastingNotes: { type: String },
     cellarId: { type: String },
     vendorId: { type: String },

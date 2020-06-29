@@ -84,6 +84,9 @@ const EditWine: React.FunctionComponent<TParams> = (props): JSX.Element => {
             <Form.Item name="appellation" label="Appellation">
               <Input />
             </Form.Item>
+            <Form.Item name="inventory" label="Inventory">
+              <InputNumber />
+            </Form.Item>
             <Form.Item name="price" label="Price">
               <InputNumber />
             </Form.Item>
