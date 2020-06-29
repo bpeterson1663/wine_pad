@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useEffect, useState } from 'react'
-import { Form, Input, InputNumber, Spin, Result, Button, message } from 'antd'
+import { Form, Input, InputNumber, Spin, Result, Button, message, Select } from 'antd'
 import api from '../../api/api'
 import { WineItem } from '../../constants/Types'
 type TParams = { match: { params: { id: string } }; history: [string] }
@@ -8,21 +8,29 @@ type TParams = { match: { params: { id: string } }; history: [string] }
 const EditWine: React.FunctionComponent<TParams> = (props): JSX.Element => {
   const { match, history } = props
   const [form] = Form.useForm()
+  const { Option } = Select
   const { TextArea } = Input
   const [isLoading, setIsLoading] = useState(true)
+  const [vendorList, setVendorList] = useState([])
   const [noError, setNoError] = useState(true)
 
   const wineId = match.params.id
-  useEffect(() => {
-    api
-      .getWine(wineId)
+
+  const fetchData = async () => {
+    await Promise.all([api.getWine(wineId), api.getAllVendors('cellarId')])
       .then((res) => {
+        const [wineRes, vendorRes] = res
+        setVendorList(vendorRes.data.items)
         form.setFieldsValue({
-          ...res.data.item,
+          ...wineRes.data.item,
         })
       })
       .catch(() => setNoError(false))
       .finally(() => setIsLoading(false))
+  }
+
+  useEffect(() => {
+    fetchData()
   }, [])
 
   const handleDelete = () => {
@@ -84,6 +92,13 @@ const EditWine: React.FunctionComponent<TParams> = (props): JSX.Element => {
             </Form.Item>
             <Form.Item name="tastingNotes" label="Tasting Notes">
               <TextArea />
+            </Form.Item>
+            <Form.Item name="vendorId" label="Vendor">
+              <Select placeholder="Select a vendor this wine is ordered from" allowClear>
+                {vendorList.map((item) => {
+                  return <Option value={item._id}>{item.name}</Option>
+                })}
+              </Select>
             </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit">

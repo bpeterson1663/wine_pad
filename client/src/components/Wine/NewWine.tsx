@@ -1,13 +1,22 @@
 import * as React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import api from '../../api/api'
 import { WineItem } from '../../constants/Types'
-import { Form, Input, Button, InputNumber, Spin, message } from 'antd'
+import { Form, Input, Button, InputNumber, Spin, message, Select } from 'antd'
 
 const NewWine: React.FunctionComponent = (): JSX.Element => {
   const [form] = Form.useForm()
   const { TextArea } = Input
+  const { Option } = Select
   const [isLoading, setIsLoading] = useState(false)
+  const [vendorList, setVendorList] = useState([])
+  useEffect(() => {
+    api.getAllVendors('cellarId').then((res) => {
+      const items = res.data.items
+      setVendorList(items)
+    })
+  }, [])
+
   const createWine = (data: WineItem) => {
     setIsLoading(true)
     api
@@ -59,6 +68,13 @@ const NewWine: React.FunctionComponent = (): JSX.Element => {
           </Form.Item>
           <Form.Item name="tastingNotes" label="Tasting Notes">
             <TextArea />
+          </Form.Item>
+          <Form.Item name="vendorId" label="Vendor">
+            <Select placeholder="Select a vendor this wine is ordered from" allowClear>
+              {vendorList.map((item) => {
+                return <Option value={item._id}>{item.name}</Option>
+              })}
+            </Select>
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit">

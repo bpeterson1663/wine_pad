@@ -8,6 +8,7 @@ interface WineItem {
   cost: number
   tastingNotes: string
   cellarId: string
+  vendorId: string
   _id: string
   key: number
 }
