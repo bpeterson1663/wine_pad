@@ -7,7 +7,14 @@ import { WineItem } from '../../constants/Types'
 
 const WineList: React.FunctionComponent = (): JSX.Element => {
   const [wineList, setWineList] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
+  const [vendorList, setVendorList] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  const getVendor = (id: string): string => {
+    const vendor = vendorList.find((item) => item._id === id)
+    return vendor ? vendor.name : ''
+  }
+
   const columns = [
     {
       title: 'Name',
@@ -21,6 +28,13 @@ const WineList: React.FunctionComponent = (): JSX.Element => {
     {
       title: 'Varietal',
       dataIndex: 'varietal',
+    },
+    {
+      title: 'Vendor',
+      dataIndex: 'vendorId',
+      render: (text: string, value: WineItem) => (
+        <Link to={`/vendor/${value.vendorId}`}>{getVendor(value.vendorId)}</Link>
+      ),
     },
     {
       title: 'Region',
@@ -39,22 +53,27 @@ const WineList: React.FunctionComponent = (): JSX.Element => {
       dataIndex: 'price',
     },
   ]
-
-  useEffect(() => {
-    setIsLoading(true)
-    api
-      .getAllWines('cellarId')
+  const fetchData = async () => {
+    await Promise.all([api.getAllWines('cellarId'), api.getAllVendors('cellarId')])
       .then((res) => {
-        if (res.data) {
-          const items = res.data.items.map((item: WineItem, i: number) => {
+        const [winesRes, vendorRes] = res
+        if (winesRes.data) {
+          const items = winesRes.data.items.map((item: WineItem, i: number) => {
             item.key = i
             return item
           })
           setWineList(items)
         }
+        if (vendorRes.data) {
+          setVendorList(vendorRes.data.items)
+        }
       })
       .catch((err) => console.error(err))
       .finally(() => setIsLoading(false))
+  }
+
+  useEffect(() => {
+    fetchData()
   }, [])
 
   return (
