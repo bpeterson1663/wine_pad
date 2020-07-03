@@ -2,7 +2,6 @@ import * as React from 'react'
 import { useContext } from 'react'
 import api from '../../api/api'
 import { useForm } from 'react-hook-form'
-import UserContext from '../../context/User.context'
 
 type User = {
   email: string
@@ -13,14 +12,11 @@ type TParams = { history: [string] }
 const Login: React.FunctionComponent<TParams> = (props): JSX.Element => {
   const { history } = props
   const { handleSubmit, register, errors } = useForm()
-  const user = useContext(UserContext)
 
   const loginUser = (data: User): void => {
     api
       .authenticateUser(data)
       .then((res) => {
-        console.log(res)
-        user.login({ userId: res, token: '' })
         history.push('/')
       })
       .catch((err) => console.error(err))

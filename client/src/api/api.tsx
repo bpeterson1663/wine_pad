@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
+  withCredentials: true,
   baseURL: 'http://localhost:4000/api',
 })
 
@@ -10,9 +11,8 @@ export const getWine = (id: string) => api.get(`/wine/${id}`)
 export const updateWine = (id: string, payload: object) => api.put(`/wine/${id}`, payload)
 export const deleteWine = (id: string) => api.delete(`/wine/${id}`)
 
-export const createUser = (payload: object) => api.post('/user', payload)
-export const authenticateUser = (payload: object) => api.post('/authenticateUser', payload)
-export const checkToken = () => api.get('/checkToken')
+export const createUser = (payload: object) => api.post('/register', payload)
+export const authenticateUser = (payload: object) => api.post('/authenticate', payload)
 
 export const createVendor = (paylouad: object) => api.post('/vendor', paylouad)
 export const getAllVendors = (id: string) => api.get(`vendors/${id}`)
@@ -28,7 +28,6 @@ const apis = {
   deleteWine,
   createUser,
   authenticateUser,
-  checkToken,
   createVendor,
   getAllVendors,
   getVendor,
