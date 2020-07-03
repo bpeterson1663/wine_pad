@@ -1,13 +1,25 @@
 const express = require('express')
 const UserCtrl = require('../controllers/user.controller')
 const router = express.Router()
-const withAuth = require('../middleware')
+const passport = require('passport')
 
-router.post('/user', UserCtrl.createUser)
-router.post('/authenticateUser', UserCtrl.authenticateUser)
+router.post('/register', UserCtrl.createUser)
+router.post('/authenticate', (req, res, next) => {
 
-router.get('/checkToken', withAuth, (req, res) => {
-  res.sendStatus(200)
+  passport.authenticate("local", (err, user) => {
+    if (err) throw err;
+    if (!user) res.send("No User Exists");
+    else {
+      req.logIn(user, (err) => {
+        if (err) throw err;
+        res.send("Successfully Authenticated");
+      });
+    }
+  })(req, res, next);
+})
+
+router.get('/user', (req, res) => {
+  res.send(req.user)
 })
 
 module.exports = router
