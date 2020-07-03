@@ -5,17 +5,16 @@ const passport = require('passport')
 
 router.post('/register', UserCtrl.createUser)
 router.post('/authenticate', (req, res, next) => {
-
-  passport.authenticate("local", (err, user) => {
-    if (err) throw err;
-    if (!user) res.send("No User Exists");
+  passport.authenticate('local', (err, user) => {
+    if (err) throw err
+    if (!user) res.send('No User Exists')
     else {
       req.logIn(user, (err) => {
-        if (err) throw err;
-        res.send("Successfully Authenticated");
-      });
+        if (err) throw err
+        res.send('Successfully Authenticated')
+      })
     }
-  })(req, res, next);
+  })(req, res, next)
 })
 
 router.get('/user', (req, res) => {

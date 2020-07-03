@@ -16,26 +16,25 @@ const passportConfig = require('./middleware/passport-config')
 const PORT = 4000
 
 const SECRET = process.env.SECRET
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(
   cors({
-    origin: "http://localhost:3000", // <-- location of the react app were connecting to
+    origin: 'http://localhost:3000', // <-- location of the react app were connecting to
     credentials: true,
-  })
-);
+  }),
+)
 app.use(
   session({
     secret: SECRET,
     resave: true,
     saveUninitialized: true,
-  })
-);
-app.use(cookieParser(SECRET));
-app.use(passport.initialize());
-app.use(passport.session());
-passportConfig(passport);
-
+  }),
+)
+app.use(cookieParser(SECRET))
+app.use(passport.initialize())
+app.use(passport.session())
+passportConfig(passport)
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
