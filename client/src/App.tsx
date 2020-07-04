@@ -20,10 +20,14 @@ import 'antd/dist/antd.css'
 const App: React.FunctionComponent = (): JSX.Element => {
   const { Header, Content } = Layout
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [userId, setUserId] = useState('')
+  const [userEmail, setUserEmail] = useState('')
   useEffect(() => {
     api.getUser().then((res) => {
       if (res.data && res.data._id && res.data.email) {
         setIsAuthenticated(true)
+        setUserId(res.data._id)
+        setUserEmail(res.data.email)
       }
     })
   }, [])
@@ -57,7 +61,7 @@ const App: React.FunctionComponent = (): JSX.Element => {
   return (
     <Layout>
       <BrowserRouter>
-        <AuthContext.Provider value={{ setAuthentication: setAuthentication, setIsAuthenticated }}>
+        <AuthContext.Provider value={{ setAuthentication, userId, userEmail }}>
           <Header>
             <Navigation isAuthenticated={isAuthenticated} />
           </Header>

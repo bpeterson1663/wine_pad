@@ -1,6 +1,7 @@
 import * as React from 'react'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
+import AuthContext from '../../context/auth.context'
 import api from '../../api/api'
 import { Table, Spin } from 'antd'
 import { WineItem } from '../../constants/Types'
@@ -9,6 +10,7 @@ const WineList: React.FunctionComponent = (): JSX.Element => {
   const [wineList, setWineList] = useState([])
   const [vendorList, setVendorList] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const auth = useContext(AuthContext)
 
   const getVendor = (id: string): string => {
     const vendor = vendorList.find((item) => item._id === id)
@@ -58,7 +60,7 @@ const WineList: React.FunctionComponent = (): JSX.Element => {
     },
   ]
   const fetchData = async () => {
-    await Promise.all([api.getAllWines('cellarId'), api.getAllVendors('cellarId')])
+    await Promise.all([api.getAllWines(auth.userId), api.getAllVendors(auth.userId)])
       .then((res) => {
         const [winesRes, vendorRes] = res
         if (winesRes.data) {

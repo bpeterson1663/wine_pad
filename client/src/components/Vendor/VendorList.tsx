@@ -1,14 +1,15 @@
 import * as React from 'react'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import api from '../../api/api'
+import AuthContext from '../../context/auth.context'
 import { Table, Spin } from 'antd'
 import { VendorItem } from '../../constants/Types'
 
 const VendorList: React.FunctionComponent = (): JSX.Element => {
   const [vendorList, setVendorList] = useState([])
   const [isLoading, setIsLoading] = useState(false)
-
+  const auth = useContext(AuthContext)
   const columns = [
     {
       title: 'Name',
@@ -28,7 +29,7 @@ const VendorList: React.FunctionComponent = (): JSX.Element => {
   useEffect(() => {
     setIsLoading(true)
     api
-      .getAllVendors('cellarId')
+      .getAllVendors(auth.userId)
       .then((res) => {
         if (res.data) {
           const items = res.data.items.map((item: VendorItem, i: number) => {

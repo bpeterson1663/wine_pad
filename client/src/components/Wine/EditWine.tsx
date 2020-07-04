@@ -1,7 +1,8 @@
 import * as React from 'react'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { Form, Input, InputNumber, Spin, Result, Button, message, Select } from 'antd'
 import api from '../../api/api'
+import AuthContext from '../../context/auth.context'
 import { WineItem } from '../../constants/Types'
 type TParams = { match: { params: { id: string } }; history: [string] }
 
@@ -13,11 +14,11 @@ const EditWine: React.FunctionComponent<TParams> = (props): JSX.Element => {
   const [isLoading, setIsLoading] = useState(true)
   const [vendorList, setVendorList] = useState([])
   const [noError, setNoError] = useState(true)
-
+  const auth = useContext(AuthContext)
   const wineId = match.params.id
 
   const fetchData = async () => {
-    await Promise.all([api.getWine(wineId), api.getAllVendors('cellarId')])
+    await Promise.all([api.getWine(wineId), api.getAllVendors(auth.userId)])
       .then((res) => {
         const [wineRes, vendorRes] = res
         setVendorList(vendorRes.data.items)
@@ -99,7 +100,11 @@ const EditWine: React.FunctionComponent<TParams> = (props): JSX.Element => {
             <Form.Item name="vendorId" label="Vendor">
               <Select placeholder="Select a vendor this wine is ordered from" allowClear>
                 {vendorList.map((item) => {
-                  return <Option value={item._id}>{item.name}</Option>
+                  return (
+                    <Option key={item._id} value={item._id}>
+                      {item.name}
+                    </Option>
+                  )
                 })}
               </Select>
             </Form.Item>

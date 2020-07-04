@@ -1,6 +1,7 @@
 import * as React from 'react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import api from '../../api/api'
+import AuthContext from '../../context/auth.context'
 import { WineItem } from '../../constants/Types'
 import { Form, Input, Button, InputNumber, Spin, message, Select } from 'antd'
 
@@ -10,8 +11,9 @@ const NewWine: React.FunctionComponent = (): JSX.Element => {
   const { Option } = Select
   const [isLoading, setIsLoading] = useState(false)
   const [vendorList, setVendorList] = useState([])
+  const auth = useContext(AuthContext)
   useEffect(() => {
-    api.getAllVendors('cellarId').then((res) => {
+    api.getAllVendors(auth.userId).then((res) => {
       const items = res.data.items
       setVendorList(items)
     })
@@ -22,7 +24,7 @@ const NewWine: React.FunctionComponent = (): JSX.Element => {
     api
       .createWine({
         ...data,
-        cellarId: 'cellarId',
+        cellarId: auth.userId,
       })
       .then(() => {
         message.success('Wine was created successfully')

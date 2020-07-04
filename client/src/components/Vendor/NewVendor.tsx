@@ -1,21 +1,21 @@
 import * as React from 'react'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { Form, Input, Button, message, Spin } from 'antd'
 import { VendorItem } from '../../constants/Types'
-
+import AuthContext from '../../context/auth.context'
 import api from '../../api/api'
 
 const NewVendor: React.FunctionComponent = (): JSX.Element => {
   const [form] = Form.useForm()
   const { TextArea } = Input
   const [isLoading, setIsLoading] = useState(false)
-
+  const auth = useContext(AuthContext)
   const createVendor = (data: VendorItem) => {
     setIsLoading(true)
     api
       .createVendor({
         ...data,
-        cellarId: 'cellarId',
+        cellarId: auth.userId,
       })
       .then(() => {
         message.success('Vendor was created successfully')
