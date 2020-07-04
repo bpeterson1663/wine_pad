@@ -13,6 +13,8 @@ export const deleteWine = (id: string) => api.delete(`/wine/${id}`)
 
 export const createUser = (payload: object) => api.post('/register', payload)
 export const authenticateUser = (payload: object) => api.post('/authenticate', payload)
+export const getUser = () => api.get('/user')
+export const logoutUser = () => api.get('/logout')
 
 export const createVendor = (paylouad: object) => api.post('/vendor', paylouad)
 export const getAllVendors = (id: string) => api.get(`vendors/${id}`)
@@ -28,6 +30,8 @@ const apis = {
   deleteWine,
   createUser,
   authenticateUser,
+  getUser,
+  logoutUser,
   createVendor,
   getAllVendors,
   getVendor,

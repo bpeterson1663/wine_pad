@@ -6,14 +6,14 @@ module.exports = function (passport) {
   passport.use(
     new localStrategy({ usernameField: 'email' }, (email, password, done) => {
       User.findOne({ email }, (err, user) => {
-        if (err) throw err
-        if (!user) return done(null, false)
+        if (err) return done(err, false)
+        if (!user) return done('Email does not exist', false)
         bcrypt.compare(password, user.password, (err, result) => {
           if (err) throw err
           if (result === true) {
             return done(null, user)
           } else {
-            return done(null, false)
+            return done('Your password is incorrect', false)
           }
         })
       })
@@ -29,7 +29,11 @@ module.exports = function (passport) {
       if (err) {
         done(null, false, { error: err })
       } else {
-        done(null, user)
+        const userInformation = {
+          _id: user._id,
+          email: user.email,
+        }
+        done(null, userInformation)
       }
     })
   })

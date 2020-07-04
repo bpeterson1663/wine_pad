@@ -1,18 +1,27 @@
 import * as React from 'react'
+import { useContext } from 'react'
 import api from '../../api/api'
+import AuthContext from '../../context/auth.context'
 import { useForm } from 'react-hook-form'
 
 type User = {
   email: string
   password: string
 }
+type TParams = { history: [string] }
+const SignUp: React.FunctionComponent<TParams> = (props): JSX.Element => {
+  const { history } = props
 
-const SignUp: React.FunctionComponent = (): JSX.Element => {
   const { handleSubmit, register, errors } = useForm()
+  const auth = useContext(AuthContext)
+
   const createUser = (data: User): void => {
     api
       .createUser(data)
-      .then((res) => console.log(res))
+      .then((res) => {
+        auth.setAuthentication(true)
+        history.push('/')
+      })
       .catch((err) => console.error(err))
   }
   return (

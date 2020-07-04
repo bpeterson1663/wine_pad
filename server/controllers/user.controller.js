@@ -6,9 +6,9 @@ const createUser = (req, res) => {
   user
     .save()
     .then(() => {
-      return res.status(201).json({
-        success: true,
-        id: user._id,
+      req.logIn(user, (err) => {
+        if (err) return res.status(401).json({ success: false, error: err })
+        return res.status(201).json({ success: true, message: 'Successfully Authenticated' })
       })
     })
     .catch((error) => {

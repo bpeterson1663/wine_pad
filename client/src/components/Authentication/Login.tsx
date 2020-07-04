@@ -1,8 +1,9 @@
 import * as React from 'react'
 import { useContext } from 'react'
 import api from '../../api/api'
+import AuthContext from '../../context/auth.context'
 import { useForm } from 'react-hook-form'
-
+import { message } from 'antd'
 type User = {
   email: string
   password: string
@@ -12,14 +13,19 @@ type TParams = { history: [string] }
 const Login: React.FunctionComponent<TParams> = (props): JSX.Element => {
   const { history } = props
   const { handleSubmit, register, errors } = useForm()
+  const auth = useContext(AuthContext)
 
   const loginUser = (data: User): void => {
     api
       .authenticateUser(data)
-      .then((res) => {
+      .then(() => {
+        auth.setAuthentication(true)
         history.push('/')
       })
-      .catch((err) => console.error(err))
+      .catch((err) => {
+        const errorMessage = err?.response?.data?.error
+        message.error(errorMessage ? errorMessage : 'An Error Occurred')
+      })
   }
   return (
     <main>

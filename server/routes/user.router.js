@@ -6,17 +6,19 @@ const passport = require('passport')
 router.post('/register', UserCtrl.createUser)
 router.post('/authenticate', (req, res, next) => {
   passport.authenticate('local', (err, user) => {
-    if (err) throw err
-    if (!user) res.send('No User Exists')
+    if (err) return res.status(401).json({ success: false, error: err })
     else {
       req.logIn(user, (err) => {
-        if (err) throw err
-        res.send('Successfully Authenticated')
+        if (err) return res.status(401).json({ success: false, error: err })
+        res.status(201).json({ success: true, message: 'Successfully Signed Up' })
       })
     }
   })(req, res, next)
 })
-
+router.get('/logout', function (req, res) {
+  req.logout()
+  res.status(201).json({ success: true, message: 'Logged Out Successful' })
+})
 router.get('/user', (req, res) => {
   res.send(req.user)
 })
