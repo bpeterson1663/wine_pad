@@ -4,10 +4,10 @@ import { Form, Input, InputNumber, Spin, Result, Button, message, Select } from 
 import api from '../../api/api'
 import AuthContext from '../../context/auth.context'
 import { WineItem } from '../../constants/Types'
-type TParams = { match: { params: { id: string } }; history: [string] }
+import { useParams, useHistory } from 'react-router-dom'
 
-const EditWine: React.FunctionComponent<TParams> = (props): JSX.Element => {
-  const { match, history } = props
+const EditWine: React.FunctionComponent = (): JSX.Element => {
+  const history = useHistory()
   const [form] = Form.useForm()
   const { Option } = Select
   const { TextArea } = Input
@@ -15,10 +15,9 @@ const EditWine: React.FunctionComponent<TParams> = (props): JSX.Element => {
   const [vendorList, setVendorList] = useState([])
   const [noError, setNoError] = useState(true)
   const auth = useContext(AuthContext)
-  const wineId = match.params.id
-
+  const { id } = useParams()
   const fetchData = async () => {
-    await Promise.all([api.getWine(wineId), api.getAllVendors(auth.userId)])
+    await Promise.all([api.getWine(id), api.getAllVendors(auth.userId)])
       .then((res) => {
         const [wineRes, vendorRes] = res
         setVendorList(vendorRes.data.items)
@@ -35,7 +34,7 @@ const EditWine: React.FunctionComponent<TParams> = (props): JSX.Element => {
   }, [])
 
   const handleDelete = () => {
-    api.deleteWine(wineId).then((res) => {
+    api.deleteWine(id).then((res) => {
       message.success('Wine was removed successfully')
       history.push('/wines')
     })
@@ -44,7 +43,7 @@ const EditWine: React.FunctionComponent<TParams> = (props): JSX.Element => {
   const handleUpdate = (data: WineItem) => {
     setIsLoading(true)
     api
-      .updateWine(wineId, data)
+      .updateWine(id, data)
       .then(() => {
         setIsLoading(false)
         message.success(`${data.name} was updated successfully`)

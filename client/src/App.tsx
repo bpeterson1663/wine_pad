@@ -6,7 +6,7 @@ import './App.css'
 import Navigation from './components/Navigation/Navigation'
 import AuthContext from './context/auth.context'
 import api from './api/api'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import SignUp from './components/Authentication/SignUp'
 import Login from './components/Authentication/Login'
 import WineList from './components/Wine/WineList'
@@ -15,6 +15,7 @@ import EditWine from './components/Wine/EditWine'
 import VendorList from './components/Vendor/VendorList'
 import NewVendor from './components/Vendor/NewVendor'
 import EditVendor from './components/Vendor/EditVendor'
+import PrivateRoute from './components/Routing/PrivateRoute'
 import 'antd/dist/antd.css'
 
 const App: React.FunctionComponent = (): JSX.Element => {
@@ -23,41 +24,20 @@ const App: React.FunctionComponent = (): JSX.Element => {
   const [userId, setUserId] = useState('')
   const [userEmail, setUserEmail] = useState('')
   useEffect(() => {
+    //TODO: Fix async issue causing redirect to login screen
     api.getUser().then((res) => {
       if (res.data && res.data._id && res.data.email) {
-        setIsAuthenticated(true)
+        setAuthentication(true)
         setUserId(res.data._id)
         setUserEmail(res.data.email)
       }
     })
   }, [])
+
   const setAuthentication = (value: boolean) => {
     setIsAuthenticated(value)
   }
 
-  const AuthenticatedRoutes: React.FunctionComponent = (): JSX.Element => {
-    return (
-      <Switch>
-        <Route path="/wines" exact component={WineList} />
-        <Route path="/wine/:id" exact component={EditWine} />
-        <Route path="/addWine" exact component={NewWine} />
-
-        <Route path="/vendors" exact component={VendorList} />
-        <Route path="/vendor/:id" exact component={EditVendor} />
-        <Route path="/addVendor" exact component={NewVendor} />
-        <Route path="/" component={WineList} />
-      </Switch>
-    )
-  }
-  const UnAuthenticatedRoutes: React.FunctionComponent = (): JSX.Element => {
-    return (
-      <Switch>
-        <Route path="/login" exact component={Login} />
-        <Route path="/signup" exact component={SignUp} />
-        <Route path="/" component={Login} />
-      </Switch>
-    )
-  }
   return (
     <Layout>
       <BrowserRouter>
@@ -65,7 +45,19 @@ const App: React.FunctionComponent = (): JSX.Element => {
           <Header>
             <Navigation isAuthenticated={isAuthenticated} />
           </Header>
-          <Content>{isAuthenticated ? <AuthenticatedRoutes /> : <UnAuthenticatedRoutes />}</Content>
+          <Content>
+            <Switch>
+              <Route path="/login" exact component={Login} />
+              <Route path="/signup" exact component={SignUp} />
+              <PrivateRoute path="/wines" component={WineList} />
+              <PrivateRoute path="/wine/:id" component={EditWine} />
+              <PrivateRoute path="/addWine" component={NewWine} />
+              <PrivateRoute path="/vendors" component={VendorList} />
+              <PrivateRoute path="/vendor/:id" component={EditVendor} />
+              <PrivateRoute path="/addVendor" component={NewVendor} />
+              <Route path="/" component={Login} />
+            </Switch>
+          </Content>
         </AuthContext.Provider>
       </BrowserRouter>
     </Layout>

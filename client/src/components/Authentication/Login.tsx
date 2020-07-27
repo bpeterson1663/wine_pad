@@ -22,7 +22,7 @@ const Login: React.FunctionComponent<TParams> = (props): JSX.Element => {
       .then(() => {
         auth.setAuthentication(true)
         setIsLoading(false)
-        history.push('/')
+        history.push('/wines')
         message.success('Login Successful')
       })
       .catch((err) => {

@@ -1,22 +1,21 @@
 import * as React from 'react'
 import { useEffect, useState } from 'react'
-import { Form, Input, InputNumber, Spin, Result, Button, message } from 'antd'
+import { Form, Input, Spin, Result, Button, message } from 'antd'
 import api from '../../api/api'
 import { VendorItem } from '../../constants/Types'
-type TParams = { match: { params: { id: string } }; history: [string] }
+import { useParams, useHistory } from 'react-router-dom'
 
-const EditVendor: React.FunctionComponent<TParams> = (props): JSX.Element => {
-  const { match, history } = props
+const EditVendor: React.FunctionComponent = (): JSX.Element => {
+  const history = useHistory()
+  const { id } = useParams()
   const [form] = Form.useForm()
   const { TextArea } = Input
   const [isLoading, setIsLoading] = useState(true)
   const [noError, setNoError] = useState(true)
 
-  const vendorId = match.params.id
-
   useEffect(() => {
     api
-      .getVendor(vendorId)
+      .getVendor(id)
       .then((res) => {
         form.setFieldsValue({
           ...res.data.item,
@@ -27,7 +26,7 @@ const EditVendor: React.FunctionComponent<TParams> = (props): JSX.Element => {
   }, [])
 
   const handleDelete = () => {
-    api.deleteVendor(vendorId).then(() => {
+    api.deleteVendor(id).then(() => {
       message.success('Vendor was removed successfully')
       history.push('/vendors')
     })
@@ -36,7 +35,7 @@ const EditVendor: React.FunctionComponent<TParams> = (props): JSX.Element => {
   const handleUpdate = (data: VendorItem) => {
     setIsLoading(true)
     api
-      .updateVendor(vendorId, data)
+      .updateVendor(id, data)
       .then(() => {
         setIsLoading(false)
         message.success(`${data.name} was updated successfully`)
