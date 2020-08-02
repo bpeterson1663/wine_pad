@@ -62,6 +62,9 @@ const NewWine: React.FunctionComponent = (): JSX.Element => {
           <Form.Item name="appellation" label="Appellation">
             <Input />
           </Form.Item>
+          <Form.Item name="par" label="Par">
+            <InputNumber />
+          </Form.Item>
           <Form.Item name="inventory" label="Inventory">
             <InputNumber />
           </Form.Item>

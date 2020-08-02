@@ -11,6 +11,7 @@ const Wine = new Schema(
     price: { type: Number },
     cost: { type: Number },
     inventory: { type: Number },
+    par: { type: Number },
     tastingNotes: { type: String },
     cellarId: { type: String },
     vendorId: { type: String },

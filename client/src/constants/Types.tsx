@@ -6,6 +6,7 @@ interface WineItem {
   appellation: string
   price: number
   cost: number
+  par: number
   inventory: number
   tastingNotes: string
   cellarId: string
