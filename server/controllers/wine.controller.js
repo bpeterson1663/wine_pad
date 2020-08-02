@@ -34,6 +34,21 @@ const getAllWines = (req, res) => {
   })
 }
 
+const getWinesByPar = (req, res) => {
+  Wine.find(
+    {
+      cellarId: req.params.id,
+      $expr: { $lt: ['$inventory', '$par'] },
+    },
+    (err, items) => {
+      if (err) {
+        return res.status(400).json({ success: false, error: err })
+      }
+      return res.status(200).json({ success: true, items: items })
+    },
+  )
+}
+
 const getWineById = (req, res) => {
   Wine.findOne({ _id: req.params.id }, (err, item) => {
     if (err) {
@@ -69,6 +84,7 @@ const deleteWineById = (req, res) => {
 module.exports = {
   createWine,
   getAllWines,
+  getWinesByPar,
   getWineById,
   deleteWineById,
   updateWineById,

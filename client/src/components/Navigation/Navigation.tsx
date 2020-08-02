@@ -35,6 +35,9 @@ const Navigation: React.FunctionComponent<NavProp> = (props): JSX.Element => {
         <Menu.Item key="/addVendor">
           <Link to="/addVendor">Add Vendor</Link>
         </Menu.Item>
+        <Menu.Item key="/orderForm">
+          <Link to="/orderForm">Order Form</Link>
+        </Menu.Item>
         <Menu.Item onClick={logoutUser} key="/logout">
           <Link to="/">Logout</Link>
         </Menu.Item>
