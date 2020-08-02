@@ -8,11 +8,11 @@ type User = {
   password: string
 }
 
-const Login: React.FunctionComponent= (): JSX.Element => {
+const Login: React.FunctionComponent = (): JSX.Element => {
   const [form] = Form.useForm()
   const [isLoading, setIsLoading] = useState(false)
   const auth = useContext(AuthContext)
- 
+
   const loginUser = (data: User): void => {
     setIsLoading(true)
     api
