@@ -21,8 +21,7 @@ const SignUp: React.FunctionComponent<TParams> = (props): JSX.Element => {
       .createUser(data)
       .then((res) => {
         setIsLoading(false)
-        auth.setAuthentication(true)
-        history.push('/')
+        auth.setAuthentication(true, res.data.userId)
         message.success('Signup Successful')
       })
       .catch((err) => {

@@ -10,7 +10,7 @@ router.post('/authenticate', (req, res, next) => {
     else {
       req.logIn(user, (err) => {
         if (err) return res.status(401).json({ success: false, error: err })
-        res.status(201).json({ success: true, message: 'Successfully Signed Up' })
+        res.status(201).json({userId: user.id, success: true, message: 'Successfully Logged In' })
       })
     }
   })(req, res, next)

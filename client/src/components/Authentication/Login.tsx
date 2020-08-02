@@ -7,23 +7,20 @@ type User = {
   email: string
   password: string
 }
-type TParams = { history: [string] }
 
-const Login: React.FunctionComponent<TParams> = (props): JSX.Element => {
-  const { history } = props
+const Login: React.FunctionComponent= (): JSX.Element => {
   const [form] = Form.useForm()
   const [isLoading, setIsLoading] = useState(false)
   const auth = useContext(AuthContext)
-
+ 
   const loginUser = (data: User): void => {
     setIsLoading(true)
     api
       .authenticateUser(data)
-      .then(() => {
-        auth.setAuthentication(true)
+      .then((res) => {
         setIsLoading(false)
-        history.push('/wines')
         message.success('Login Successful')
+        auth.setAuthentication(true, res.data.userId)
       })
       .catch((err) => {
         const errorMessage = err?.response?.data?.error

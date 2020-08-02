@@ -8,7 +8,7 @@ const createUser = (req, res) => {
     .then(() => {
       req.logIn(user, (err) => {
         if (err) return res.status(401).json({ success: false, error: err })
-        return res.status(201).json({ success: true, message: 'Successfully Authenticated' })
+        return res.status(201).json({userId: user._id, success: true, message: 'Successfully Authenticated' })
       })
     })
     .catch((error) => {
