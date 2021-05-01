@@ -81,10 +81,7 @@ const EditWine: React.FunctionComponent = (): JSX.Element => {
             <Form.Item name="region" label="Region">
               <Input />
             </Form.Item>
-            <Form.Item name="appellation" label="Appellation">
-              <Input />
-            </Form.Item>
-            <Form.Item name="par" label="Par">
+            <Form.Item name="par" label="Par Stock">
               <InputNumber />
             </Form.Item>
             <Form.Item name="inventory" label="Inventory">
@@ -96,7 +93,7 @@ const EditWine: React.FunctionComponent = (): JSX.Element => {
             <Form.Item name="cost" label="Cost">
               <InputNumber />
             </Form.Item>
-            <Form.Item name="tastingNotes" label="Tasting Notes">
+            <Form.Item name="description" label="Description">
               <TextArea />
             </Form.Item>
             <Form.Item name="vendorId" label="Vendor">
