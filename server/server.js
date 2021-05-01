@@ -13,7 +13,7 @@ const wineRouter = require('./routes/wine.router')
 const userRouter = require('./routes/user.router')
 const vendorRouter = require('./routes/vendor.router')
 const passportConfig = require('./middleware/passport-config')
-const PORT = 4000
+const PORT = 4001
 
 const SECRET = process.env.SECRET
 app.use(bodyParser.json())

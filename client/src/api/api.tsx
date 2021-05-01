@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const api = axios.create({
   withCredentials: true,
-  baseURL: 'http://localhost:4000/api',
+  baseURL: 'http://localhost:4001/api',
 })
 
 export const createWine = (payload: object) => api.post('/wine', payload)
