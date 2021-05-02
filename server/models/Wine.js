@@ -16,7 +16,7 @@ const Wine = new Schema(
     cellarId: { type: String },
     vendorId: { type: String },
     winery: { type: String },
-    imageUrl: { type: String }
+    imageUrl: { type: String },
   },
   { timestamps: true },
 )

@@ -1,9 +1,11 @@
 import * as React from 'react'
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext, SVGProps } from 'react'
 import api from '../../api/api'
 import AuthContext from '../../context/auth.context'
 import { WineItem } from '../../constants/Types'
 import { Form, Input, Button, InputNumber, Spin, message, Select } from 'antd'
+import Camera from 'react-html5-camera-photo'
+import 'react-html5-camera-photo/build/css/index.css'
 
 const NewWine: React.FunctionComponent = (): JSX.Element => {
   const [form] = Form.useForm()
@@ -11,6 +13,7 @@ const NewWine: React.FunctionComponent = (): JSX.Element => {
   const { Option } = Select
   const [isLoading, setIsLoading] = useState(false)
   const [vendorList, setVendorList] = useState([])
+  const [dataUri, setDataUri] = useState('')
   const auth = useContext(AuthContext)
   useEffect(() => {
     api.getAllVendors(auth.userId).then((res) => {
@@ -19,11 +22,14 @@ const NewWine: React.FunctionComponent = (): JSX.Element => {
     })
   }, [])
 
+  const handleTakePhotoAnimationDone = (dataURI: string) => setDataUri(dataURI)
+
   const createWine = (data: WineItem) => {
     setIsLoading(true)
     api
       .createWine({
         ...data,
+        imageUrl: dataUri,
         cellarId: auth.userId,
       })
       .then(() => {
@@ -85,6 +91,17 @@ const NewWine: React.FunctionComponent = (): JSX.Element => {
               })}
             </Select>
           </Form.Item>
+          <div>
+            {dataUri ? (
+              <div>
+                <img src={dataUri} />
+                <button onClick={() => setDataUri('')}>Retake Picture</button>
+              </div>
+            ) : (
+              <Camera onTakePhotoAnimationDone={handleTakePhotoAnimationDone} isFullscreen={false} />
+            )}
+          </div>
+
           <Form.Item>
             <Button type="primary" htmlType="submit">
               Submit

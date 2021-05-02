@@ -14,10 +14,11 @@ const userRouter = require('./routes/user.router')
 const vendorRouter = require('./routes/vendor.router')
 const passportConfig = require('./middleware/passport-config')
 const PORT = 4001
-
 const SECRET = process.env.SECRET
+
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.json({ limit: '50mb' }))
+app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }))
 app.use(
   cors({
     origin: 'http://localhost:3000', // <-- location of the react app were connecting to
