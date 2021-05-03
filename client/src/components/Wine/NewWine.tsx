@@ -30,7 +30,7 @@ const NewWine: React.FunctionComponent = (): JSX.Element => {
     api
       .createWine({
         ...data,
-        imageUrl: dataUri,
+        imageUrl: encodeURIComponent(dataUri),
         cellarId: auth.userId,
       })
       .then(() => {
@@ -112,9 +112,8 @@ const NewWine: React.FunctionComponent = (): JSX.Element => {
                   </Button>
                 </div>
               ) : (
-                
                 <Camera
-                  idealResolution={{ width: 300, height: 300 }}
+                  idealResolution={{ width: 150, height: 300 }}
                   imageType={IMAGE_TYPES.JPG}
                   imageCompression={0.97}
                   onTakePhotoAnimationDone={handleTakePhotoAnimationDone}
