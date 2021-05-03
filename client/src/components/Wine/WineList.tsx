@@ -19,6 +19,13 @@ const WineList: React.FunctionComponent = (): JSX.Element => {
 
   const columns = [
     {
+      title: '',
+      dataIndex: 'imageUrl',
+      render: (text: string, value: WineItem) => (
+        <img src={decodeURIComponent(value.imageUrl)} width={30} height={75} />
+      ),
+    },
+    {
       title: 'Name',
       dataIndex: 'name',
       render: (text: string, value: WineItem) => <Link to={`/wine/${value._id}`}>{text}</Link>,
@@ -43,20 +50,12 @@ const WineList: React.FunctionComponent = (): JSX.Element => {
       dataIndex: 'region',
     },
     {
-      title: 'Appellation',
-      dataIndex: 'appellation',
-    },
-    {
       title: 'Par',
       dataIndex: 'par',
     },
     {
       title: 'Inventory',
       dataIndex: 'inventory',
-    },
-    {
-      title: 'Image Url',
-      dataIndex: 'imageUrl',
     },
     {
       title: 'Cost',

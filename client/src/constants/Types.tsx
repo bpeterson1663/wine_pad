@@ -3,14 +3,14 @@ interface WineItem {
   varietal: string
   vintage: string
   region: string
-  appellation: string
   price: number
   cost: number
   par: number
   inventory: number
-  tastingNotes: string
+  description: string
   cellarId: string
   vendorId: string
+  imageUrl: string
   _id: string
   key: number
 }
