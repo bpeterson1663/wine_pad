@@ -5,6 +5,8 @@ import api from '../../api/api'
 import AuthContext from '../../context/auth.context'
 import { WineItem } from '../../constants/Types'
 import { useParams, useHistory } from 'react-router-dom'
+import Camera, { IMAGE_TYPES } from 'react-html5-camera-photo'
+import 'react-html5-camera-photo/build/css/index.css'
 
 const EditWine: React.FunctionComponent = (): JSX.Element => {
   const history = useHistory()
@@ -14,6 +16,8 @@ const EditWine: React.FunctionComponent = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(true)
   const [vendorList, setVendorList] = useState([])
   const [noError, setNoError] = useState(true)
+  const [dataUri, setDataUri] = useState('')
+  const [pictureMode, setPictureMode] = useState(false)
   const auth = useContext(AuthContext)
   const { id } = useParams()
   const fetchData = async () => {
@@ -24,6 +28,7 @@ const EditWine: React.FunctionComponent = (): JSX.Element => {
         form.setFieldsValue({
           ...wineRes.data.item,
         })
+        setDataUri(decodeURIComponent(wineRes.data.item.imageUrl))
       })
       .catch(() => setNoError(false))
       .finally(() => setIsLoading(false))
@@ -32,6 +37,11 @@ const EditWine: React.FunctionComponent = (): JSX.Element => {
   useEffect(() => {
     fetchData()
   }, [])
+
+  const handleTakePhotoAnimationDone = (dataURI: string) => {
+    setDataUri(dataURI)
+    setPictureMode(false)
+  }
 
   const handleDelete = () => {
     api.deleteWine(id).then((res) => {
@@ -42,6 +52,7 @@ const EditWine: React.FunctionComponent = (): JSX.Element => {
 
   const handleUpdate = (data: WineItem) => {
     setIsLoading(true)
+    data.imageUrl = dataUri
     api
       .updateWine(id, data)
       .then(() => {
@@ -107,6 +118,34 @@ const EditWine: React.FunctionComponent = (): JSX.Element => {
                 })}
               </Select>
             </Form.Item>
+            {pictureMode ? (
+              <div>
+                <Button
+                  type="primary"
+                  onClick={() => {
+                    setPictureMode(false)
+                  }}
+                >
+                  Turn Off Camera
+                </Button>
+                <Camera
+                  idealResolution={{ width: 150, height: 300 }}
+                  imageType={IMAGE_TYPES.JPG}
+                  imageCompression={0.97}
+                  onTakePhotoAnimationDone={handleTakePhotoAnimationDone}
+                />
+              </div>
+            ) : null}
+            <div>
+              {dataUri && !pictureMode ? (
+                <div>
+                  <img src={dataUri} />
+                  <Button type="primary" onClick={() => setPictureMode(true)}>
+                    Retake Picture
+                  </Button>
+                </div>
+              ) : null}
+            </div>
             <Form.Item>
               <Button type="primary" htmlType="submit">
                 Submit
