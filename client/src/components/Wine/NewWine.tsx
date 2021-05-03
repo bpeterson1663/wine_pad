@@ -4,7 +4,7 @@ import api from '../../api/api'
 import AuthContext from '../../context/auth.context'
 import { WineItem } from '../../constants/Types'
 import { Form, Input, Button, InputNumber, Spin, message, Select } from 'antd'
-import Camera from 'react-html5-camera-photo'
+import Camera, { IMAGE_TYPES } from 'react-html5-camera-photo'
 import 'react-html5-camera-photo/build/css/index.css'
 
 const NewWine: React.FunctionComponent = (): JSX.Element => {
@@ -14,6 +14,7 @@ const NewWine: React.FunctionComponent = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false)
   const [vendorList, setVendorList] = useState([])
   const [dataUri, setDataUri] = useState('')
+  const [pictureMode, setPictureMode] = useState(false)
   const auth = useContext(AuthContext)
   useEffect(() => {
     api.getAllVendors(auth.userId).then((res) => {
@@ -91,16 +92,36 @@ const NewWine: React.FunctionComponent = (): JSX.Element => {
               })}
             </Select>
           </Form.Item>
-          <div>
-            {dataUri ? (
-              <div>
-                <img src={dataUri} />
-                <button onClick={() => setDataUri('')}>Retake Picture</button>
-              </div>
-            ) : (
-              <Camera onTakePhotoAnimationDone={handleTakePhotoAnimationDone} isFullscreen={false} />
-            )}
-          </div>
+          {!dataUri ? (
+            <Button
+              type="primary"
+              onClick={() => {
+                setPictureMode((currentState) => !currentState)
+              }}
+            >
+              {pictureMode ? 'Turn Off Camera' : 'Take Picture'}
+            </Button>
+          ) : null}
+          {pictureMode ? (
+            <div>
+              {dataUri ? (
+                <div>
+                  <img src={dataUri} />
+                  <Button type="primary" onClick={() => setDataUri('')}>
+                    Retake Picture
+                  </Button>
+                </div>
+              ) : (
+                
+                <Camera
+                  idealResolution={{ width: 300, height: 300 }}
+                  imageType={IMAGE_TYPES.JPG}
+                  imageCompression={0.97}
+                  onTakePhotoAnimationDone={handleTakePhotoAnimationDone}
+                />
+              )}
+            </div>
+          ) : null}
 
           <Form.Item>
             <Button type="primary" htmlType="submit">
