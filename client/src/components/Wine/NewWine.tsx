@@ -6,7 +6,7 @@ import { WineItem } from '../../constants/Types'
 import { Form, Input, Button, InputNumber, Spin, message, Select } from 'antd'
 import Camera, { IMAGE_TYPES } from 'react-html5-camera-photo'
 import 'react-html5-camera-photo/build/css/index.css'
-
+import './index.css'
 const NewWine: React.FunctionComponent = (): JSX.Element => {
   const [form] = Form.useForm()
   const { TextArea } = Input
@@ -41,7 +41,7 @@ const NewWine: React.FunctionComponent = (): JSX.Element => {
       .finally(() => setIsLoading(false))
   }
   return (
-    <main>
+    <main className="form-container">
       <h2>New Wine</h2>
       <Spin tip="Loading..." spinning={isLoading}>
         <Form form={form} onFinish={createWine} layout="horizontal" size="small">
