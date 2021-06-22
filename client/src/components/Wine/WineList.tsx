@@ -29,6 +29,7 @@ const WineList: React.FunctionComponent = (): JSX.Element => {
       title: 'Name',
       dataIndex: 'name',
       render: (text: string, value: WineItem) => <Link to={`/wine/${value._id}`}>{text}</Link>,
+      sorter: (a: WineItem, b: WineItem) => a.name.length - b.name.length,
     },
     {
       title: 'Vintage',
